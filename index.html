@@ -85,6 +85,12 @@ footer{text-align:center;padding:20px;font-size:12px;color:var(--muted);}
   </div>
 
 
+  <div class="actions" id="installRow" style="display:none;margin-top:10px;">
+    <button class="btn primary" id="installBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>Install app
+    </button>
+  </div>
+
   <p class="hint">Tip: separate Morse letters with a space, words with /</p>
 </main>
 
@@ -168,6 +174,23 @@ function playMorse(){
   setTimeout(()=>{ playing=false; playBtn.disabled=false; }, (t-actx.currentTime)*1000+200);
 }
 input.addEventListener("input", translate);
+/* direct install: show the in-page Install button when Chrome offers the real install prompt */
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById("installRow").style.display = "flex";
+});
+document.getElementById("installBtn").addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById("installRow").style.display = "none";
+});
+window.addEventListener("appinstalled", () => {
+  document.getElementById("installRow").style.display = "none";
+});
 if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 </script>
 </body>
