@@ -24,6 +24,20 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Morse translator"
+    },
+    {
+      "src": "screenshot-2.png",
+      "sizes": "824x1830",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Text to Morse, live"
+    },
+    {
+      "src": "screenshot-3.png",
+      "sizes": "824x1830",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Morse to Text"
     }
   ]
 }
